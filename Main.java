@@ -24,7 +24,7 @@ public class Main {
                 
                 switch(opt){
                     case 1 -> {
-                        
+                        System.out.println("teste");
                     }
                     case 2 -> {
                         
