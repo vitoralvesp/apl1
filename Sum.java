@@ -10,8 +10,8 @@ public class Sum extends Operator {
     protected float see() {
         Operand leftOp = (Operand)this.getLeft();
         Operand rightOp = (Operand)this.getRight();
-        return (leftOp != null ? leftOp.getData() : 0.0f) +
-               (rightOp != null ? rightOp.getData() : 0.0f);
+        return (leftOp != null ? leftOp.see() : 0.0f) +
+               (rightOp != null ? rightOp.see() : 0.0f);
     }
     
     

@@ -33,14 +33,6 @@ public class BTree<T> {
      
     private int getDegree(BNode<T> root){
         if(root == null || root.isLeaf()) return 0;
-//        else if (root.getDegree() == 2) return 2;
-//        else {
-//            BNode<T> left = root.getLeft();
-//            BNode<T> right = root.getRight();
-//            return (getDegree(left) >= getDegree(right)) 
-//                    ? left.getDegree()
-//                    : right.getDegree();
-//        }
         else return Math.max(root.getDegree(),
                              Math.max(getDegree(root.getLeft()),
                                       getDegree(root.getRight())));
@@ -91,12 +83,46 @@ public class BTree<T> {
     
    public void levelOrderTraversal(){
       Queue<BNode> q = new LinkedList<>();
-      q.add(root);
+      q.add(root); 
       while(!q.isEmpty()) {
           if(q.peek().getLeft() != null )q.add(q.peek().getLeft());
           if(q.peek().getRight() != null )q.add(q.peek().getRight());
           System.out.print(q.poll().getData());
    }
   }
+   private float calcular(BNode<T> n) {
+       if(n.isLeaf()) {
+           Operand val = (Operand)n;
+           return val.getData();
+       }
+       else{
+           Operator op = (Operator)n;
+           switch(op.getData()){
+                case '+' -> {
+                    return calcular(n.getLeft()) + calcular(n.getRight());
+               }
+                   
+                   
+                case '-' -> {
+                    return calcular(n.getLeft()) - calcular(n.getRight());
+               }
+                   
+                   
+                case '*' -> {
+                    return calcular(n.getLeft()) * calcular(n.getRight());
+               }
+                   
+                   
+                case '/' -> {
+                    return calcular(n.getLeft()) / calcular(n.getRight());
+               }
+           }
+       }
+       return -1;
+   
+   }
+   public float calcular(){
+       return calcular(root);
+   }
     
 }

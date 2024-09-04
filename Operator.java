@@ -11,10 +11,10 @@ public class Operator extends BNode<Character> {
         super(data);
     }
 
-//    @Override
-//    protected float see() {
-//        
-//    }
+    @Override
+    protected float see() {
+      return this.see();
+    }
     
     
 }

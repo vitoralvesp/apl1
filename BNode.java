@@ -88,7 +88,7 @@ public class BNode<T> {
     }
 
     
-    protected float see() { return Float.NaN;}
+    protected float see(){return Float.NaN;}
 
     @Override
     public String toString() {
