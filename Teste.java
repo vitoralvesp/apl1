@@ -1,6 +1,6 @@
 package APL1;
 
-public class Main {
+public class Teste {
     public static void main(String[] args) {
         BNode<String> f = new BNode("F");
         BNode<String> b = new BNode("B",f);

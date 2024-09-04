@@ -1,6 +1,4 @@
-
-package Lab03;
-
+package APL1;
 
 public class BNode<T> {
     private T data;
@@ -88,6 +86,9 @@ public class BNode<T> {
                 : 1 + right.getHeight();
         return h;
     }
+
+    
+    protected float see() { return Float.NaN;}
 
     @Override
     public String toString() {
