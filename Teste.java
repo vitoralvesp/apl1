@@ -2,26 +2,30 @@ package APL1;
 
 public class Teste {
     public static void main(String[] args) {
-        Diff f = new Diff('+');
-        Operand b = new Operand(3.5f,f);
-        Operand g= new Operand(1.5f,f);
-//        BNode<String> a= new BNode("A",b);
-//        BNode<String> d= new BNode("D",b);
-//        BNode<String> c= new BNode("C",d);
-//        BNode<String> e= new BNode("E",d);
-//        BNode<String> i= new BNode("I",g);
-//        BNode<String> h= new BNode("H",i);
+        Sum f = new Sum('+');
+        Multiply b = new Multiply('*',f);
+        Operand g= new Operand(5,f);
+        Sum a= new Sum('+',b);
+        Diff d= new Diff('-',b);
+        Operand c= new Operand(3,a);
+        Operand e= new Operand(6,a);
+        Operand h= new Operand(4,d);
+        Operand i= new Operand(1,d);
         
-        f.setLeft(null);
         f.setRight(g);
-//        b.setLeft(a);
-//        b.setRight(d);
-//        d.setLeft(c);
-//        d.setRight(e);
-//        g.setRight(i);
-//        i.setLeft(h);
-        System.out.println(f.see());
-        //BTree<BNode> tree = new BTree(f);
+        f.setLeft(b);
+        b.setLeft(a);
+        b.setRight(d);
+        a.setLeft(c);
+        a.setRight(e);
+        d.setRight(i);
+        d.setLeft(h);
+        
+        BTree<BNode> tree = new BTree(f);
+        
+        //System.out.print(tree.inOrderTraversal()+" = ");
+        System.out.println(tree.calcular());
+        
 //        System.out.println("Pre = " + tree.preOrderTraversal());
 //        System.out.println("Post = " + tree.postOrderTraversal());
 //        System.out.println("In = " + tree.inOrderTraversal());

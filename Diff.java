@@ -2,6 +2,10 @@ package APL1;
 
 public class Diff extends Operator{
 
+    public Diff(char data, BNode parent) {
+        super(data, parent);
+    }
+
     public Diff(char data) {
         super(data);
     }

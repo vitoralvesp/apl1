@@ -2,6 +2,11 @@ package APL1;
 
 public class Sum extends Operator {
 
+    public Sum(char data, BNode parent) {
+        super(data, parent);
+    }
+
+    
     public Sum(char data) {
         super(data);
     }

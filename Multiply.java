@@ -2,6 +2,10 @@ package APL1;
 
 public class Multiply extends Operator{
 
+    public Multiply(char data, BNode parent) {
+        super(data, parent);
+    }
+
     public Multiply(char data) {
         super(data);
     }
