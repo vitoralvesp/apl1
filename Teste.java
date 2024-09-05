@@ -23,7 +23,7 @@ public class Teste {
         
         BTree<BNode> tree = new BTree(f);
         
-        //System.out.print(tree.inOrderTraversal()+" = ");
+        System.out.print(tree.inOrderTraversal()+" = ");
         System.out.println(tree.calcular());
         
 //        System.out.println("Pre = " + tree.preOrderTraversal());

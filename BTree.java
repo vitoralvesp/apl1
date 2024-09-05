@@ -103,11 +103,11 @@ public class BTree<T> {
    private void calcular(BNode n) {
         //System.out.println("Nó: " + (n!=null?n.getData():"null"));
         if (n != null && !n.isLeaf()) {
-        //Caso base de operacao
+            //Caso base de operacao
             if(n.getLeft() != null && n.getLeft().isLeaf() 
                && n.getRight()!=null && n.getRight().isLeaf()) {
                 Operand result = new Operand(n.see());
-                System.out.printf("see(%c) = %f\n",n.getData(),n.see());
+                //System.out.printf("see(%c) = %f\n",n.getData(),n.see());
                 //BNode pai = n.getParent();
                 if(!n.isRoot())removeAndSwapNodes(n, result);
                 //System.out.println("Esq eh folha: " + pai.getLeft().isLeaf() + "\n");
@@ -115,6 +115,10 @@ public class BTree<T> {
             else{
                 calcular(n.getLeft());
                 calcular(n.getRight());
+                Operand result = new Operand(n.see());
+                //System.out.printf("see(%c) = %f\n",n.getData(),n.see());
+                //BNode pai = n.getParent();
+                if(!n.isRoot())removeAndSwapNodes(n, result);
             }
        }
    }
