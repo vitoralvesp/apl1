@@ -1,5 +1,6 @@
-package APL1;
-
+package main;
+import binaryTree.*;
+import operations.*;
 import java.util.Scanner;
 
 

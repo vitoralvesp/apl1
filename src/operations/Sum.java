@@ -1,19 +1,24 @@
-package APL1;
+package operations;
+import binaryTree.*;
 
-public class Divide extends Operator{
+public class Sum extends Operator {
 
-    public Divide(char data, BNode parent) {
+    public Sum(char data, BNode parent) {
         super(data, parent);
     }
-
-    public Divide(char data) {
+    
+    public Sum(char data) {
         super(data);
     }
+
     @Override
     protected float see() {
         Operand leftOp = (Operand)this.getLeft();
         Operand rightOp = (Operand)this.getRight();
-        return (leftOp != null ? leftOp.see() : 0.0f) /
+        return (leftOp != null ? leftOp.see() : 0.0f) +
                (rightOp != null ? rightOp.see() : 0.0f);
     }
+    
+    
+    
 }

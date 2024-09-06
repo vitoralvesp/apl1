@@ -1,13 +1,13 @@
-package APL1;
+package binaryTree;
 
 public class BNode<T> {
     private T data;
-    private BNode parent;
-    private BNode left;
-    private BNode right;
+    private BNode<T> parent;
+    private BNode<T> left;
+    private BNode<T> right;
 
     //Nós em geral
-    public BNode(T data, BNode parent) {
+    public BNode(T data, BNode<T> parent) {
         this.data = data;
         this.parent = parent;
         right = left = null;
@@ -27,27 +27,27 @@ public class BNode<T> {
         this.data = data;
     }
 
-    public BNode getParent() {
+    public BNode<T> getParent() {
         return parent;
     }
 
-    public void setParent(BNode parent) {
+    public void setParent(BNode<T> parent) {
         this.parent = parent;
     }
 
-    public BNode getLeft() {
+    public BNode<T> getLeft() {
         return left;
     }
 
-    public void setLeft(BNode left) {
+    public void setLeft(BNode<T> left) {
         this.left = left;
     }
 
-    public BNode getRight() {
+    public BNode<T> getRight() {
         return right;
     }
 
-    public void setRight(BNode right) {
+    public void setRight(BNode<T> right) {
         this.right = right;
     }
     
@@ -66,7 +66,7 @@ public class BNode<T> {
         return degree;
     }
     
-    public int getLevel(){
+    public int getLevel() {
         if (isRoot()) return 0;
         else return parent.getLevel()+1;
     }

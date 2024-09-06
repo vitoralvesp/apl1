@@ -1,7 +1,7 @@
-package APL1;
+package operations;
+import binaryTree.*;
 
-
-public class Operand extends BNode<Float> {
+public class Operand extends BNode {
 
     public Operand(float data, BNode parent) {
         super(data, parent);
@@ -13,7 +13,7 @@ public class Operand extends BNode<Float> {
 
     @Override
     protected float see() {
-        return this.getData();
+        return (float) this.getData();
     }
     
 }

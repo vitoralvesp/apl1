@@ -1,5 +1,5 @@
-package APL1;
-
+package binaryTree;
+import operations.*;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -7,10 +7,11 @@ import java.util.Queue;
  *
  * @author lucas
  */
-public class BTree<T> {
-    private BNode root;
 
-    public BTree(BNode root) {
+public class BTree<T> {
+    private BNode<T> root;
+
+    public BTree(BNode<T> root) {
         this.root = root;
     }
 
@@ -19,11 +20,11 @@ public class BTree<T> {
         this(null);
     }
     
-    public BNode getRoot() {
+    public BNode<T> getRoot() {
         return root;
     }
 
-    public void setRoot(BNode root) {
+    public void setRoot(BNode<T> root) {
         this.root = root;
     }
     
@@ -31,7 +32,7 @@ public class BTree<T> {
         return root == null;
     }
      
-    private int getDegree(BNode root){
+    private int getDegree(BNode<T> root){
         if(root == null || root.isLeaf()) return 0;
         else return Math.max(root.getDegree(),
                              Math.max(getDegree(root.getLeft()),
@@ -47,7 +48,7 @@ public class BTree<T> {
     
     
     //Percursos
-    private String inOrderTraversal(BNode root){
+    private String inOrderTraversal(BNode<T> root){
         if(root == null) return "";
         else return "" + inOrderTraversal(root.getLeft()) +
                     "" + root.getData() +
@@ -59,7 +60,7 @@ public class BTree<T> {
         return inOrderTraversal(root);
     }
     
-    private String preOrderTraversal(BNode root){
+    private String preOrderTraversal(BNode<T> root){
         if(root == null) return "";
         else return "" + root.getData() +
                     "" + preOrderTraversal(root.getLeft()) +
@@ -70,7 +71,7 @@ public class BTree<T> {
         return preOrderTraversal(root);
     }
     
-    private String postOrderTraversal(BNode root){
+    private String postOrderTraversal(BNode<T> root){
         if(root == null) return "";
         else return "" + postOrderTraversal(root.getLeft()) +
                     "" + postOrderTraversal(root.getRight()) +
@@ -82,7 +83,7 @@ public class BTree<T> {
     }
     
    public void levelOrderTraversal(){
-      Queue<BNode> q = new LinkedList<>();
+      Queue<BNode<T>> q = new LinkedList<>();
       q.add(root); 
       while(!q.isEmpty()) {
           if(q.peek().getLeft() != null )q.add(q.peek().getLeft());
@@ -91,8 +92,8 @@ public class BTree<T> {
    }
   }
    
-  private void removeAndSwapNodes(BNode out, Operand in){
-        BNode sup = out.getParent();
+  private void removeAndSwapNodes(BNode<T> out, Operand in){
+	  	BNode<T> sup = out.getParent();
         in.setParent(sup);
         if(sup.getLeft() == out) sup.setLeft(in);
         else sup.setRight(in);
@@ -100,7 +101,7 @@ public class BTree<T> {
   }
   
   //TODO: Consertar
-   private void calcular(BNode n) {
+   private void calcular(BNode<T> n) {
         //System.out.println("Nó: " + (n!=null?n.getData():"null"));
         if (n != null && !n.isLeaf()) {
             //Caso base de operacao

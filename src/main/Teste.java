@@ -1,4 +1,6 @@
-package APL1;
+package main;
+import binaryTree.*;
+import operations.*;
 
 public class Teste {
     public static void main(String[] args) {
