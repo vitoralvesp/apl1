@@ -1,5 +1,7 @@
-package APL1;
+package APL1.src.main;
 
+import APL1.src.binaryTree.*;
+import APL1.src.operations.*;
 import java.util.Scanner;
 import java.util.InputMismatchException;
 

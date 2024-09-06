@@ -1,4 +1,6 @@
-package APL1;
+package APL1.src.main;
+import APL1.src.binaryTree.*;
+import APL1.src.operations.*;
 
 public class Teste {
     public static BNode createSteps(String ops[],int idx){
