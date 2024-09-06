@@ -10,31 +10,34 @@ import java.util.InputMismatchException;
 public class Main {
   
   public static BNode createSteps(String ops[],int idx){
-    if(ops[idx].charAt(0)>=48 && ops[idx].charAt(0)<=57) 
-	return new Operand(Float.parseFloat(ops[idx]));
-    else {
-	Operator opt = switch (ops[idx]) {
-            case "+" -> new Sum('+');
-            case "-" -> new Diff('-');
-            case "*" -> new Multiply('*');
-            default -> new Divide('/');
-        };
-
-	if (ops[idx-2].charAt(0)>=48 && ops[idx-2].charAt(0)<=57 && 
-            ops[idx-1].charAt(0)>=48 && ops[idx-1].charAt(0)<=57){
-            opt.setLeft(new Operand(Float.parseFloat(ops[idx-2])));
-            opt.setRight(new Operand(Float.parseFloat(ops[idx-2])));
-	}
-	else {
-            opt.setLeft(createSteps(ops,idx-2));
-            opt.setRight(createSteps(ops,idx-1));
-         
-	}
-	
-	return opt;
+    if(idx >= 0){ //Caso índice válido
+        if(ops[idx].charAt(0)>=48 && ops[idx].charAt(0)<=57)   //Operando(caso base)
+            return new Operand(Float.parseFloat(ops[idx]));
+        else { //Operador
+            Operator opt = switch (ops[idx]) { //Definir operação
+                case "+" -> new Sum('+');
+                case "-" -> new Diff('-');
+                case "*" -> new Multiply('*');
+                default -> new Divide('/');
+            };
+            if (ops[idx-2].charAt(0)>=48 && ops[idx-2].charAt(0)<=57 && //Operação (caso base)
+                ops[idx-1].charAt(0)>=48 && ops[idx-1].charAt(0)<=57){
+                opt.setLeft(new Operand(Float.parseFloat(ops[idx-2])));
+                opt.setRight(new Operand(Float.parseFloat(ops[idx-1])));
+            }
+            else if(ops[idx-1].charAt(0)<=48 || ops[idx-1].charAt(0)>=57) {//dois operadores juntos
+                opt.setLeft(createSteps(ops,idx-4));
+                opt.setRight(createSteps(ops,idx-1));
+            }
+            else {//caso geral
+                opt.setLeft(createSteps(ops,idx-2));
+                opt.setRight(createSteps(ops,idx-1));
+            }
+	    return opt;
+        }
     }
-	
-}
+    return null;
+  }
   
     public static BTree create(String ops[], int idx){ 
         return new BTree<BNode>(createSteps(ops,idx)); 

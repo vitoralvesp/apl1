@@ -1,6 +1,5 @@
-package operations;
-import binaryTree.*;
-
+package APL1.src.operations;
+import APL1.src.binaryTree.*;
 public class Operand extends BNode {
 
     public Operand(float data, BNode parent) {

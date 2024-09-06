@@ -4,29 +4,37 @@ import APL1.src.operations.*;
 
 public class Teste {
     public static BNode createSteps(String ops[],int idx){
-    if(ops[idx].charAt(0)>=48 && ops[idx].charAt(0)<=57) 
-	return new Operand(Float.parseFloat(ops[idx]));
-    else {
-	Operator opt = switch (ops[idx]) {
-            case "+" -> new Sum('+');
-            case "-" -> new Diff('-');
-            case "*" -> new Multiply('*');
-            default -> new Divide('/');
-        };
+    if(idx >= 0){
+        if(ops[idx].charAt(0)>=48 && ops[idx].charAt(0)<=57) 
+            return new Operand(Float.parseFloat(ops[idx]));
+        else {
+            Operator opt = switch (ops[idx]) {
+                case "+" -> new Sum('+');
+                case "-" -> new Diff('-');
+                case "*" -> new Multiply('*');
+                default -> new Divide('/');
+            };
 
-	if (ops[idx-2].charAt(0)>=48 && ops[idx-2].charAt(0)<=57 && 
-            ops[idx-1].charAt(0)>=48 && ops[idx-1].charAt(0)<=57){
-            opt.setLeft(new Operand(Float.parseFloat(ops[idx-2])));
-            opt.setRight(new Operand(Float.parseFloat(ops[idx-1])));
-	}
-	else {
-            opt.setLeft(createSteps(ops,idx-2));
-            opt.setRight(createSteps(ops,idx-1));
-         
-	}
+            if (ops[idx-2].charAt(0)>=48 && ops[idx-2].charAt(0)<=57 && 
+                ops[idx-1].charAt(0)>=48 && ops[idx-1].charAt(0)<=57){
+                opt.setLeft(new Operand(Float.parseFloat(ops[idx-2])));
+                opt.setRight(new Operand(Float.parseFloat(ops[idx-1])));
+            }
+            else if(ops[idx-1].charAt(0)<=48 || ops[idx-1].charAt(0)>=57) {
+                opt.setLeft(createSteps(ops,idx-4));
+                opt.setRight(createSteps(ops,idx-1));
+            }
+            else {
+                opt.setLeft(createSteps(ops,idx-2));
+                opt.setRight(createSteps(ops,idx-1));
+            }
 	
-	return opt;
+            return opt;
+        }
+        
     }
+    
+    return null;
 	
 }
   
