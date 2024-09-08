@@ -1,45 +1,57 @@
 package APL1.src.main;
 import APL1.src.binaryTree.*;
 import APL1.src.operations.*;
+import java.util.Stack;
 
 public class Teste {
-    public static BNode createSteps(String ops[],int idx){
-    if(idx >= 0){
-        if(ops[idx].charAt(0)>=48 && ops[idx].charAt(0)<=57) 
-            return new Operand(Float.parseFloat(ops[idx]));
-        else {
-            Operator opt = switch (ops[idx]) {
-                case "+" -> new Sum('+');
-                case "-" -> new Diff('-');
-                case "*" -> new Multiply('*');
-                default -> new Divide('/');
-            };
-
-            if (ops[idx-2].charAt(0)>=48 && ops[idx-2].charAt(0)<=57 && 
-                ops[idx-1].charAt(0)>=48 && ops[idx-1].charAt(0)<=57){
-                opt.setLeft(new Operand(Float.parseFloat(ops[idx-2])));
-                opt.setRight(new Operand(Float.parseFloat(ops[idx-1])));
+    public static BNode createSteps(String ops[]){
+        
+        Stack<BNode> p= new Stack<>();
+        //Percorrendo a posfixa
+        for(String op: ops){
+            
+            //Se for operando, empilha seu valor.
+            if(op.charAt(0)>=48 && op.charAt(0)<=57)
+                p.push(new Operand(Float.parseFloat(op)));
+            
+            //Caso contrário, desempilha os operandos, empilha o resultado.
+            else{
+                Operator opt = null;
+                //Empilha o resultado de acordo com a operação.
+                switch(op){
+                    case "+" -> {
+                        opt = new Sum(op.charAt(0));
+                        opt.setRight(p.pop());
+                        opt.setLeft(p.pop());
+                    }
+                    case "-" -> {
+                        opt = new Diff(op.charAt(0));
+                        opt.setRight(p.pop());
+                        opt.setLeft(p.pop());
+                    }
+                    case "*" -> {
+                        opt= new Multiply(op.charAt(0));
+                        opt.setRight(p.pop());
+                        opt.setLeft(p.pop());
+                    }
+                    case "/" -> {
+                        opt= new Divide(op.charAt(0));
+                        opt.setRight(p.pop());
+                        opt.setLeft(p.pop());
+                    }
+                }
+                 p.push(opt);
             }
-            else if(ops[idx-1].charAt(0)<=48 || ops[idx-1].charAt(0)>=57) {
-                opt.setLeft(createSteps(ops,idx-4));
-                opt.setRight(createSteps(ops,idx-1));
-            }
-            else {
-                opt.setLeft(createSteps(ops,idx-2));
-                opt.setRight(createSteps(ops,idx-1));
-            }
-	
-            return opt;
+           
         }
         
-    }
-    
-    return null;
+        //Resultado
+        return p.pop();
 	
 }
   
     public static BTree create(String ops[], int idx){ 
-        return new BTree<BNode>(createSteps(ops,idx)); 
+        return new BTree<>(createSteps(ops)); 
     }
     
     
@@ -64,7 +76,7 @@ public class Teste {
 //        a.setRight(e);
 //        d.setRight(i);
 //        d.setLeft(h);
-        String ops[]={"3.0","6.0","+","4.0","1.0","-","*","5.0","+"};
+        String ops[]={"4.0","3.0","+","2.0","1.0","-","*","3.0","3.0","*","2","-","/"};
 
         BTree<BNode> tree = create(ops,ops.length-1);
         
