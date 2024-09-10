@@ -114,26 +114,27 @@ public class BTree<T> {
     
     // removeAndSwapNodes(BNode<T> out, Operand in) --> remove e troca os nodes de posição na árvore
     private void removeAndSwapNodes(BNode<T> out, Operand in) {
-	  	BNode<T> sup = out.getParent();
-        in.setParent(sup);
-        if(sup.getLeft() == out) sup.setLeft(in);
-        else sup.setRight(in);
-        out.setParent(null);
+	if(!out.isRoot()){
+            BNode<T> sup = out.getParent();
+            in.setParent(sup);
+            if(sup.getLeft() == out) sup.setLeft(in);
+            else sup.setRight(in);
+            out.setParent(null);
+        } else root = in;
+        
     }
   
     // calcular(BNode<T> n) --> função recursiva auxiliar para calcular uma expressão aritmética em uma árvore binária
-    // STATUS: Não Finalizada
-    private void calcular(BNode<T> n) {
+        private void calcular(BNode<T> n) {
         //System.out.println("Nó: " + (n!=null?n.getData():"null"));
         if (n != null && !n.isLeaf()) {
             //Caso base de operacao
             if(n.getLeft() != null && n.getLeft().isLeaf() 
                && n.getRight()!=null && n.getRight().isLeaf()) {
                 Operand result = new Operand(n.see());
-                //System.out.printf("see(%c) = %f\n",n.getData(),n.see());
-                //BNode pai = n.getParent();
-                if(!n.isRoot())removeAndSwapNodes(n, result);
-                //System.out.println("Esq eh folha: " + pai.getLeft().isLeaf() + "\n");
+                
+               removeAndSwapNodes(n, result);
+                
             }
             else{
                 calcular(n.getLeft());
@@ -141,15 +142,15 @@ public class BTree<T> {
                 Operand result = new Operand(n.see());
                 //System.out.printf("see(%c) = %f\n",n.getData(),n.see());
                 //BNode pai = n.getParent();
-                if(!n.isRoot())removeAndSwapNodes(n, result);
+                removeAndSwapNodes(n, result);
             }
        }
     }
    
     // calcular() --> retorna o cálculo de uma expressão aritmética em uma árvore
-    public float calcular() {
+    public T calcular() {
        calcular(root);
-       return root.see();
+       return root.getData();
    }
     
 }

@@ -1,42 +1,120 @@
 package APL1.src.main;
 import APL1.src.binaryTree.*;
 import APL1.src.operations.*;
+import Apl1.src.auxiliar.Tokenizer;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 import java.util.Stack;
 
 public class Teste {
-    public static BNode createSteps(String ops[]){
+    
+      // infixaParaPosfixa(String expressão, char operandos[], Pilha pilha) 
+    //--> Converte uma expressão na forma infixa para posfixa
+    public static List<String> infixaParaPosfixa(List<String> exp){
+        Stack<String> p = new Stack<>();
+        p.clear(); //Limpa a pilha, para não exibir o valor da outra operação.
+        
+        List<String> posfixa = new ArrayList<>();
+        int prioridadeTopo = 0, prioridadeEl;
+        
+        //Percorrendo a expressão infixa.
+        for(String op: exp){
+            
+             // Condição: se for um operando, copia para a saída.
+            if(Character.isDigit(op.charAt(0))) posfixa.add(op);
+            
+            //Caso contrário, é uma operação ou ().
+            else{
+                
+                // Condição: se c for igual a '(' ou a pilha for vazia, empilha.
+                if(op.equals("(") || p.isEmpty()) {
+                    
+                   // Parêntese aberto reduz a prioridade do topo da pilha.
+                    if(op.equals("(")) prioridadeTopo -= 3;
+                    p.push(op);
+                    
+                }
+                
+                //')' faz com que desempilhe e copie na saída até achar '('.
+                else if(op.equals(")")){
+                    while(!p.peek().equals("(")) posfixa.add(p.pop());
+                    p.pop();
+               
+                }
+                
+                // Definição da prioridade das operações.
+                else{
+                   prioridadeEl = switch(op){
+                        case "*", "/" -> 2;
+                        case "+", "-" -> 1;
+                        default -> 0;
+                    };
+                
+                   prioridadeTopo = switch (p.peek()) {
+                        case "*", "/" -> 2;
+                        case "+", "-" -> 1;
+                        default -> 0;
+                   };
+                   
+                   // Condição: se a prioridade do topo for maior, desempilha e 
+                   //empilha a nova. Caso contrário, apenas empilha a nova operação.
+                    if(prioridadeTopo >= prioridadeEl) posfixa.add(p.pop());
+                    p.push(op); 
+                }
+            }
+        }
+      
+        //Desempilha e copia para a saída as últimas operações.
+        while(!p.isEmpty())posfixa.add(p.pop());
+        return posfixa;
+    }
+
+    
+    public static BNode createSteps(List<String> ops){
         
         Stack<BNode> p= new Stack<>();
         //Percorrendo a posfixa
         for(String op: ops){
-            
             //Se for operando, empilha seu valor.
-            if(op.charAt(0)>=48 && op.charAt(0)<=57)
+            if(Character.isDigit(op.charAt(0))){
+                //System.out.println(op + "is Digit!");
                 p.push(new Operand(Float.parseFloat(op)));
-            
-            //Caso contrário, desempilha os operandos, empilha o resultado.
+               
+            }
+            //Caso contrário, desempilha os operandos, empilha o operador.
             else{
+               
                 Operator opt = null;
-                //Empilha o resultado de acordo com a operação.
+                //Empilha a raiz(operador) da sub-árvore criada.
                 switch(op){
                     case "+" -> {
                         opt = new Sum(op.charAt(0));
+                        p.peek().setParent(opt);
+                        //System.out.println(p.peek());
                         opt.setRight(p.pop());
+                        p.peek().setParent(opt);
                         opt.setLeft(p.pop());
                     }
                     case "-" -> {
                         opt = new Diff(op.charAt(0));
+                        p.peek().setParent(opt);
                         opt.setRight(p.pop());
+                        p.peek().setParent(opt);
                         opt.setLeft(p.pop());
                     }
                     case "*" -> {
                         opt= new Multiply(op.charAt(0));
+                        p.peek().setParent(opt);
                         opt.setRight(p.pop());
+                        p.peek().setParent(opt);
                         opt.setLeft(p.pop());
                     }
                     case "/" -> {
                         opt= new Divide(op.charAt(0));
+                        p.peek().setParent(opt);
                         opt.setRight(p.pop());
+                        p.peek().setParent(opt);
                         opt.setLeft(p.pop());
                     }
                 }
@@ -50,7 +128,7 @@ public class Teste {
 	
 }
   
-    public static BTree create(String ops[], int idx){ 
+    public static BTree create(List<String> ops, int idx){ 
         return new BTree<>(createSteps(ops)); 
     }
     
@@ -76,12 +154,16 @@ public class Teste {
 //        a.setRight(e);
 //        d.setRight(i);
 //        d.setLeft(h);
-        String ops[]={"4.0","3.0","+","2.0","1.0","-","*","3.0","3.0","*","2","-","/"};
-
-        BTree<BNode> tree = create(ops,ops.length-1);
-        
-        System.out.print(tree.inOrderTraversal());
-        //System.out.println(tree.calcular());
+        Scanner in = new Scanner(System.in);
+        System.out.print("Expressão: ");
+        String teste = in.nextLine();
+        List<String> infixa= new Tokenizer(teste).tokenize();
+        List<String> posfixa= infixaParaPosfixa(infixa);
+            
+        BTree<BNode> tree = create(posfixa,posfixa.size()-1);
+        System.out.println("Árvore criada!");
+        System.out.println(tree.inOrderTraversal() + " = " + tree.calcular());
+        System.out.println("Conta final = " + tree.inOrderTraversal());
         
 //        System.out.println("Pre = " + tree.preOrderTraversal());
 //        System.out.println("Post = " + tree.postOrderTraversal());

@@ -1,3 +1,5 @@
+package Apl1.src.auxiliar;
+
 import java.util.ArrayList;
 import java.util.List;
 

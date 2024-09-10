@@ -2,63 +2,150 @@ package APL1.src.main;
 
 import APL1.src.binaryTree.*;
 import APL1.src.operations.*;
+import Apl1.src.auxiliar.Tokenizer;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.InputMismatchException;
+import java.util.List;
+import java.util.Stack;
 
 
 
 public class Main {
   
-  public static BNode createSteps(String ops[],int idx){
-    if(idx >= 0){ //Caso índice válido
-        if(ops[idx].charAt(0)>=48 && ops[idx].charAt(0)<=57)   //Operando(caso base)
-            return new Operand(Float.parseFloat(ops[idx]));
-        else { //Operador
-            Operator opt = switch (ops[idx]) { //Definir operação
-                case "+" -> new Sum('+');
-                case "-" -> new Diff('-');
-                case "*" -> new Multiply('*');
-                default -> new Divide('/');
-            };
-            if (ops[idx-2].charAt(0)>=48 && ops[idx-2].charAt(0)<=57 && //Operação (caso base)
-                ops[idx-1].charAt(0)>=48 && ops[idx-1].charAt(0)<=57){
-                opt.setLeft(new Operand(Float.parseFloat(ops[idx-2])));
-                opt.setRight(new Operand(Float.parseFloat(ops[idx-1])));
+    // infixaParaPosfixa(String expressão, char operandos[], Pilha pilha) 
+    //--> Converte uma expressão na forma infixa para posfixa
+    public static List<String> infixToPosfix(List<String> exp){
+        Stack<String> p = new Stack<>();
+        p.clear(); //Limpa a pilha, para não exibir o valor da outra operação.
+        
+        List<String> posfixa = new ArrayList<>();
+        int prioridadeTopo = 0, prioridadeEl;
+        
+        //Percorrendo a expressão infixa.
+        for(String op: exp){
+            
+             // Condição: se for um operando, copia para a saída.
+            if(Character.isDigit(op.charAt(0))) posfixa.add(op);
+            
+            //Caso contrário, é uma operação ou ().
+            else{
+                
+                // Condição: se c for igual a '(' ou a pilha for vazia, empilha.
+                if(op.equals("(") || p.isEmpty()) {
+                    
+                   // Parêntese aberto reduz a prioridade do topo da pilha.
+                    if(op.equals("(")) prioridadeTopo -= 3;
+                    p.push(op);
+                    
+                }
+                
+                //')' faz com que desempilhe e copie na saída até achar '('.
+                else if(op.equals(")")){
+                    while(!p.peek().equals("(")) posfixa.add(p.pop());
+                    p.pop();
+               
+                }
+                
+                // Definição da prioridade das operações.
+                else{
+                   prioridadeEl = switch(op){
+                        case "*", "/" -> 2;
+                        case "+", "-" -> 1;
+                        default -> 0;
+                    };
+                
+                   prioridadeTopo = switch (p.peek()) {
+                        case "*", "/" -> 2;
+                        case "+", "-" -> 1;
+                        default -> 0;
+                   };
+                   
+                   // Condição: se a prioridade do topo for maior, desempilha e 
+                   //empilha a nova. Caso contrário, apenas empilha a nova operação.
+                    if(prioridadeTopo >= prioridadeEl) posfixa.add(p.pop());
+                    p.push(op); 
+                }
             }
-            else if(ops[idx-1].charAt(0)<=48 || ops[idx-1].charAt(0)>=57) {//dois operadores juntos
-                opt.setLeft(createSteps(ops,idx-4));
-                opt.setRight(createSteps(ops,idx-1));
-            }
-            else {//caso geral
-                opt.setLeft(createSteps(ops,idx-2));
-                opt.setRight(createSteps(ops,idx-1));
-            }
-	    return opt;
         }
+      
+        //Desempilha e copia para a saída as últimas operações.
+        while(!p.isEmpty())posfixa.add(p.pop());
+        return posfixa;
     }
-    return null;
-  }
+
+    
+    public static BNode createSteps(List<String> ops){
+        
+        Stack<BNode> p= new Stack<>();
+        //Percorrendo a posfixa
+        for(String op: ops){
+            //Se for operando, empilha seu valor.
+            if(Character.isDigit(op.charAt(0))){
+                //System.out.println(op + "is Digit!");
+                p.push(new Operand(Float.parseFloat(op)));
+               
+            }
+            //Caso contrário, desempilha os operandos, empilha o operador.
+            else{
+               
+                Operator opt = null;
+                //Empilha a raiz(operador) da sub-árvore criada.
+                switch(op){
+                    case "+" -> {
+                        opt = new Sum(op.charAt(0));
+                        p.peek().setParent(opt);
+                        //System.out.println(p.peek());
+                        opt.setRight(p.pop());
+                        p.peek().setParent(opt);
+                        opt.setLeft(p.pop());
+                    }
+                    case "-" -> {
+                        opt = new Diff(op.charAt(0));
+                        p.peek().setParent(opt);
+                        opt.setRight(p.pop());
+                        p.peek().setParent(opt);
+                        opt.setLeft(p.pop());
+                    }
+                    case "*" -> {
+                        opt= new Multiply(op.charAt(0));
+                        p.peek().setParent(opt);
+                        opt.setRight(p.pop());
+                        p.peek().setParent(opt);
+                        opt.setLeft(p.pop());
+                    }
+                    case "/" -> {
+                        opt= new Divide(op.charAt(0));
+                        p.peek().setParent(opt);
+                        opt.setRight(p.pop());
+                        p.peek().setParent(opt);
+                        opt.setLeft(p.pop());
+                    }
+                }
+                 p.push(opt);
+            }
+           
+        }
+        
+        //Resultado
+        return p.pop();
+	
+}
   
-    public static BTree create(String ops[], int idx){ 
-        return new BTree<BNode>(createSteps(ops,idx)); 
+    public static BTree create(List<String> ops, int idx){ 
+        return new BTree<>(createSteps(ops)); 
     }
 
 	public static void main(String[] args) {
         
 		Scanner scanner = new Scanner(System.in);
-                int MAXSIZE = 20;
 		int option;
-		String infixNotation = "";
-		String infixNotationArr[];
-		int infixNotationLength;
-		BTree tree;
-		BNode node;
+		List<String> infixNotation = new ArrayList<>();
+		List<String> posfixNotation= new ArrayList<>();
+                String exp = "";
+		BTree<BNode> tree = null;
 		
 		while(true){
-			infixNotationLength = 0;
-			infixNotationArr = new String[MAXSIZE];
-			node = new BNode("+");
-            
 			try {
 				
 				System.out.println("--------------------------------------------------------");
@@ -90,54 +177,38 @@ public class Main {
                     	scanner.nextLine();
                     	
                     	System.out.print("Digite uma expressao aritmetica na forma infixa: ");
-                    	infixNotation = scanner.nextLine().replaceAll(" ", "");
-                        System.out.println("String: " + infixNotation);
-                    	infixNotationArr = infixNotation.split("");
-                        System.out.print("[");
-                        for(String s: infixNotationArr){
-                            System.out.print(s+", ");
-                        }
-                        System.out.println("]");
-                    	break;
+                        exp = scanner.nextLine().replaceAll(" ", "");
+                    	infixNotation = new Tokenizer(exp).tokenize();
+                        posfixNotation = infixToPosfix(infixNotation);
+                        //TODO: VALIDAR!!!
                     	
                     }
                     
                     case 2 -> {
-                        
-                    	// infixNotationLength = infixNotation.length();
-                    	for (String character : infixNotationArr) {
-                    		
-                    		if (character.equals("+") || 
-                    			character.equals("-") ||
-                    			character.equals("*") ||
-                    			character.equals("/") )
-                    			node.setData(character);
-                    		else {
-                    			
-                    		break;                  			
-                    			
-                    		}
-                    		
-                    		                   		
-                    		
-                    	}
-                    		
-                    	                   	
-                    	break;
-                    	
+                        if(infixNotation == null) System.out.println("ERRO! Não foi passada a expressão!");
+                        else{
+                            System.out.println("Criando árvore...");
+                            tree = create(posfixNotation,posfixNotation.size()-1);
+                            System.out.println("Árvore criada com sucesso!");
+                        } 	
+                    
                     }
                     
                     case 3 -> {
-                        
-                    	System.out.println("Case 3\n");
-                    	break;
+                        if(tree == null) System.out.println("ERRO! Árvore ainda não foi criada!");
+                        else {
+                            System.out.println("Pré-ordem: " + tree.preOrderTraversal());
+                            System.out.println("Em-ordem: " + tree.inOrderTraversal());
+                            System.out.println("Pós-ordem: " + tree.postOrderTraversal());
+                        }
+                    	
                     	
                     }
                     
                     case 4 -> {
-                        
-                    	System.out.println("Case 4\n");
-                    	break;
+                        if(tree == null) System.out.println("ERRO! Árvore ainda não foi criada!");
+                        else System.out.println(exp + " = " + tree.calcular());
+                    	
                     
                     }
                 }
