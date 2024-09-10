@@ -1,5 +1,20 @@
 package Apl1.src.auxiliar;
 
+/**
+ *
+ * @author Lucas Pires de Camargo Sarai - 10418013
+ * @author Vitor Alves Pereira - 10410862
+ * 
+ * Ciência da Computação
+ * 3D
+ * EDI
+ * 
+ * Referências:
+ *  Herança em Java
+ *  Árvores - fundamentos
+ * 
+ */
+
 import java.util.ArrayList;
 import java.util.List;
 

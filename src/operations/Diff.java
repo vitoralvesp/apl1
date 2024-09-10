@@ -10,7 +10,8 @@ package APL1.src.operations;
  * EDI
  * 
  * Referências:
- * 
+ *  Herança em Java
+ *  Árvores - fundamentos
  */
 
 import APL1.src.binaryTree.*;

@@ -11,7 +11,9 @@ package APL1.src.binaryTree;
  * EDI
  * 
  * Referências:
- * https://profkishimoto.github.io/edi03d-2024-1/atividades/n1/EDI-2024.1%20-%20Apl1.pdf
+ *  Herança em Java
+ *  Árvores - fundamentos
+ * 
  */
 
 import APL1.src.operations.*;
