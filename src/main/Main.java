@@ -1,5 +1,18 @@
 package APL1.src.main;
 
+/**
+ *
+ * @author Lucas Pires de Camargo Sarai - 10418013
+ * @author Vitor Alves Pereira - 10410862
+ * 
+ * Ciência da Computação
+ * 3D
+ * EDI
+ * 
+ * Referências:
+ * 
+ */
+
 import APL1.src.binaryTree.*;
 import APL1.src.operations.*;
 import Apl1.src.auxiliar.Tokenizer;

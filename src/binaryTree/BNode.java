@@ -1,5 +1,18 @@
 package APL1.src.binaryTree;
 
+/**
+ *
+ * @author Lucas Pires de Camargo Sarai - 10418013
+ * @author Vitor Alves Pereira - 10410862
+ * 
+ * Ciência da Computação
+ * 3D
+ * EDI
+ * 
+ * Referências:
+ * https://profkishimoto.github.io/edi03d-2024-1/atividades/n1/EDI-2024.1%20-%20Apl1.pdf
+ */
+
 public class BNode<T> {
 	
     private T data;
