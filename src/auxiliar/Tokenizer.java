@@ -73,11 +73,11 @@ public class Tokenizer{
 
 			}else{
 				System.out.println("ERRO! Token não reconhecido: " + currChar);
-				isTokenizing = false;
+				return null;
 			}
 
 		}
-	      System.out.println("Encerrando leitura...");
+	      System.out.println("Leitura concluída com sucesso!");
 	      return tokens;
 			
 	}

@@ -22,6 +22,7 @@ import java.util.Scanner;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Stack;
+import java.util.EmptyStackException;
 
 
 
@@ -29,9 +30,8 @@ public class Main {
   
     // infixaParaPosfixa(String expressão, char operandos[], Pilha pilha) 
     //--> Converte uma expressão na forma infixa para posfixa
-    public static List<String> infixToPosfix(List<String> exp){
+    private static List<String> infixToPosfix(List<String> exp){
         Stack<String> p = new Stack<>();
-        p.clear(); //Limpa a pilha, para não exibir o valor da outra operação.
         
         List<String> posfixa = new ArrayList<>();
         int prioridadeTopo = 0, prioridadeEl;
@@ -89,7 +89,7 @@ public class Main {
     }
 
     
-    public static BNode createSteps(List<String> ops){
+    private static BNode createSteps(List<String> ops) {
         
         Stack<BNode> p= new Stack<>();
         //Percorrendo a posfixa
@@ -116,10 +116,17 @@ public class Main {
                     }
                     case "-" -> {
                         opt = new Diff(op.charAt(0));
-                        p.peek().setParent(opt);
-                        opt.setRight(p.pop());
-                        p.peek().setParent(opt);
-                        opt.setLeft(p.pop());
+                        if(p.size()>1){ // Operador binário
+                            p.peek().setParent(opt);
+                            opt.setRight(p.pop());
+                            p.peek().setParent(opt);
+                            opt.setLeft(p.pop());
+                        }else{ // Operador unário
+                            p.peek().setParent(opt);
+                            opt.setRight(p.pop());
+                            
+                        }
+                        
                     }
                     case "*" -> {
                         opt= new Multiply(op.charAt(0));
@@ -146,7 +153,7 @@ public class Main {
 	
 }
   
-    public static BTree create(List<String> ops, int idx){ 
+    private static BTree create(List<String> ops){ 
         return new BTree<>(createSteps(ops)); 
     }
 
@@ -157,13 +164,13 @@ public class Main {
 		List<String> infixNotation = new ArrayList<>();
 		List<String> posfixNotation= new ArrayList<>();
                 String exp = "";
-		BTree<BNode> tree = null;
+		BTree<BNode> tree = new BTree<>();
 		
 		while(true){
 			try {
 				
 				System.out.println("--------------------------------------------------------");
-                System.out.println("MENU:");
+                System.out.println("\nMENU:");
                 System.out.print("[1] Entrada da expressao aritmetica na notaçao infixa.\n" +
                                  "[2] Criacao da arvore binaria de expressao aritmetica.\n" +
                                  "[3] Exibicao da arvore binaria de expressao aritmetica.\n" +
@@ -188,12 +195,13 @@ public class Main {
                 
                     case 1 -> {
                         
-                    	scanner.nextLine();
-                    	
+                    	scanner.nextLine(); // Limpando o Scanner
+                    	tree.setRoot(null); // Limpando a árvore
+                        
                     	System.out.print("Digite uma expressao aritmetica na forma infixa: ");
                         exp = scanner.nextLine().replaceAll(" ", "");
                     	infixNotation = new Tokenizer(exp).tokenize();
-                        posfixNotation = infixToPosfix(infixNotation);
+                        if(infixNotation != null)posfixNotation = infixToPosfix(infixNotation);
                         //TODO: VALIDAR!!!
                     	
                     }
@@ -201,15 +209,22 @@ public class Main {
                     case 2 -> {
                         if(infixNotation == null) System.out.println("ERRO! Não foi passada a expressão!");
                         else{
-                            System.out.println("Criando árvore...");
-                            tree = create(posfixNotation,posfixNotation.size()-1);
-                            System.out.println("Árvore criada com sucesso!");
+                            try{
+                                System.out.println("Criando árvore...");
+                                tree = create(posfixNotation);
+                                System.out.println("Árvore criada com sucesso!");
+                            }catch(EmptyStackException e){
+                                System.out.println("--------------------------------------------------------\n");
+                                System.out.println("ERRO! Operações binárias devem ter dois operandos!");
+                                System.out.println("--------------------------------------------------------\n");
+                            }
+                            
                         } 	
                     
                     }
                     
                     case 3 -> {
-                        if(tree == null) System.out.println("ERRO! Árvore ainda não foi criada!");
+                        if(tree.getRoot() == null) System.out.println("ERRO! Árvore ainda não foi criada!");
                         else {
                             System.out.println("Pré-ordem: " + tree.preOrderTraversal());
                             System.out.println("Em-ordem: " + tree.inOrderTraversal());
@@ -220,9 +235,10 @@ public class Main {
                     }
                     
                     case 4 -> {
-                        if(tree == null) System.out.println("ERRO! Árvore ainda não foi criada!");
+                        if(tree.getRoot() == null) System.out.println("ERRO! Árvore ainda não foi criada!");
                         else System.out.println(exp + " = " + tree.calcular());
-                    	
+                        
+                                          	
                     
                     }
                 }
