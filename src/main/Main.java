@@ -157,6 +157,36 @@ public class Main {
         return new BTree<>(createSteps(ops)); 
     }
 
+    // verificar(String sentence, Pilha pilha) --> Verificação da sentença.
+    private static boolean verify(List<String> sentence){
+        Stack<String> p = new Stack<>();
+        
+        //Analisa a simetria dos sinais de abertura e fechamento.
+        for(String op: sentence){
+            
+            // Insere os caracteres que abrem.
+            //Verifica se não ocorre o caso x(...) ao invés de x*(...)
+            if(op.equals("("))
+                if(!Character.isDigit(sentence.get(sentence.lastIndexOf(op)-1).charAt(0)))
+                    p.push(op);
+                else return false;
+            
+            //Analisa os caracteres que fecham.
+            else if(op.equals(")")){
+                
+                // Condição: Se todos não forem fechados, retorna falso.
+                if(p.isEmpty() || (op.equals(")")  && !p.peek().equals("(")))
+                    return false;
+                
+                // Remove os que fecham corretamente.
+                p.pop(); 
+            }
+
+        }
+        //Se a pilha estiver vazia, é válido, pois todos foram fechados.
+        return p.isEmpty(); 
+    }
+    
 	public static void main(String[] args) {
         
 		Scanner scanner = new Scanner(System.in);
@@ -164,6 +194,7 @@ public class Main {
 		List<String> infixNotation = new ArrayList<>();
 		List<String> posfixNotation= new ArrayList<>();
                 String exp = "";
+                boolean isChecked = true;
 		BTree<BNode> tree = new BTree<>();
 		
 		while(true){
@@ -200,23 +231,31 @@ public class Main {
                         
                     	System.out.print("Digite uma expressao aritmetica na forma infixa: ");
                         exp = scanner.nextLine().replaceAll(" ", "");
-                    	infixNotation = new Tokenizer(exp).tokenize();
-                        if(infixNotation != null)posfixNotation = infixToPosfix(infixNotation);
+                    	infixNotation = new Tokenizer(exp).tokenize();                
+                        if(infixNotation != null) {
+                            isChecked = verify(infixNotation);
+                            if(!isChecked) 
+                                System.out.println("\nERRO!Parênteses não correspondentes!\n"
+                                    + "--ou não use x(...) ao invés de x*(...)");
+                                                   
+                            else posfixNotation = infixToPosfix(infixNotation);
+                        }
+                                                                       
+                        System.out.println("\nEncerrando leitura...");
                         //TODO: VALIDAR!!!
                     	
                     }
                     
                     case 2 -> {
-                        if(infixNotation == null) System.out.println("ERRO! Não foi passada a expressão!");
+                        if(infixNotation == null || !isChecked) System.out.println("ERRO! Não foi passada a expressão!");
                         else{
                             try{
                                 System.out.println("Criando árvore...");
                                 tree = create(posfixNotation);
                                 System.out.println("Árvore criada com sucesso!");
                             }catch(EmptyStackException e){
-                                System.out.println("--------------------------------------------------------\n");
                                 System.out.println("ERRO! Operações binárias devem ter dois operandos!");
-                                System.out.println("--------------------------------------------------------\n");
+                               
                             }
                             
                         } 	

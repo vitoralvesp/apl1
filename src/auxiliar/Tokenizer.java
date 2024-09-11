@@ -72,20 +72,15 @@ public class Tokenizer{
 				isTokenizing = false;
 
 			}else{
-				System.out.println("ERRO! Token não reconhecido: " + currChar);
+				System.out.println("\nERRO! Token não reconhecido: " + currChar);
+                                System.out.println("Leitura falhou! Um ou mais"
+                                        + " tokens não foram reconhecidos.");
 				return null;
 			}
 
-		}
-	      System.out.println("Leitura concluída com sucesso!");
+                }
 	      return tokens;
 			
-	}
-	
-	public static void main(String args[]){
-		Tokenizer tk = new Tokenizer("((4.0+3.5)*(22.3-10.1))/(33*3-2)");
-		List<String> tokens = tk.tokenize();
-		for(int i = 0; i<tokens.size();i++) System.out.println("token [" + i + "]: " + tokens.get(i));
 	}
 
 }
