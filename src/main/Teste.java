@@ -46,7 +46,7 @@ public class Teste {
                 if(op.equals("(") || p.isEmpty()) {
                     
                    // Parêntese aberto reduz a prioridade do topo da pilha.
-                    if(op.equals("(")) prioridadeTopo -= 3;
+                    if(op.equals("(")) prioridadeTopo -= 2;
                     p.push(op);
                     
                 }
@@ -86,7 +86,7 @@ public class Teste {
     }
 
     
-    public static BNode createSteps(List<String> ops){
+    private static BNode createSteps(List<String> ops) {
         
         Stack<BNode> p= new Stack<>();
         //Percorrendo a posfixa
@@ -113,10 +113,17 @@ public class Teste {
                     }
                     case "-" -> {
                         opt = new Diff(op.charAt(0));
-                        p.peek().setParent(opt);
-                        opt.setRight(p.pop());
-                        p.peek().setParent(opt);
-                        opt.setLeft(p.pop());
+                        if(p.size()>1){ // Operador binário
+                            p.peek().setParent(opt);
+                            opt.setRight(p.pop());
+                            p.peek().setParent(opt);
+                            opt.setLeft(p.pop());
+                        }else{ // Operador unário
+                            p.peek().setParent(opt);
+                            opt.setRight(p.pop());
+                            
+                        }
+                        
                     }
                     case "*" -> {
                         opt= new Multiply(op.charAt(0));
@@ -143,7 +150,7 @@ public class Teste {
 	
 }
   
-    public static BTree create(List<String> ops, int idx){ 
+    public static BTree create(List<String> ops){ 
         return new BTree<>(createSteps(ops)); 
     }
     
@@ -174,11 +181,11 @@ public class Teste {
         String teste = in.nextLine();
         List<String> infixa= new Tokenizer(teste).tokenize();
         List<String> posfixa= infixaParaPosfixa(infixa);
-            
-        BTree<BNode> tree = create(posfixa,posfixa.size()-1);
-        System.out.println("Árvore criada!");
-        System.out.println(tree.inOrderTraversal() + " = " + tree.calcular());
-        System.out.println("Conta final = " + tree.inOrderTraversal());
+        for(String p: posfixa){
+            System.out.print(p);
+        }
+        BTree<BNode> tree = create(posfixa);
+        System.out.println("\nCalcular = " + tree.calcular());
         
 //        System.out.println("Pre = " + tree.preOrderTraversal());
 //        System.out.println("Post = " + tree.postOrderTraversal());

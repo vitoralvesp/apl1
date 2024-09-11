@@ -49,7 +49,7 @@ public class Main {
                 if(op.equals("(") || p.isEmpty()) {
                     
                    // Parêntese aberto reduz a prioridade do topo da pilha.
-                    if(op.equals("(")) prioridadeTopo -= 3;
+                    if(op.equals("(")) prioridadeTopo -= 2;
                     p.push(op);
                     
                 }
