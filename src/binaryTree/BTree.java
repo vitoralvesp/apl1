@@ -1,6 +1,3 @@
-package APL1.src.binaryTree;
-
-
 /**
  *
  * @author Lucas Pires de Camargo Sarai - 10418013
@@ -16,6 +13,7 @@ package APL1.src.binaryTree;
  * 
  */
 
+package APL1.src.binaryTree;
 import APL1.src.operations.*;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -23,25 +21,24 @@ import java.util.Queue;
 
 public class BTree<T> {
     
-	private BNode<T> root;
-    
+    private BNode<T> root;
+	
     /* Construtores */
+    // BTree(raiz) --> cria uma raiz para a árvore binária
     public BTree(BNode<T> root) {
         this.root = root;
     }
 
-    // Construtor para árvore vazia
+    // BTree() --> construtor para árvore vazia
     public BTree() {
         this(null);
     }
     
-    
     /* Setters */
-    // setRoot(BNode<T> root) --> atribui uma nova raiz para a árvore
+    // setRoot(raiz) --> atribui uma nova raiz para a árvore
     public void setRoot(BNode<T> root) {
         this.root = root;
     }
-    
     
     /* Getters */
     // getRoot() --> retorna a raiz da árvore binária
@@ -49,7 +46,7 @@ public class BTree<T> {
         return root;
     }
     
-    // getDegree(BNode<T> root) --> função recursiva auxiliar para calcular o grau da árvore
+    // getDegree(raiz) --> função recursiva auxiliar para calcular o grau da árvore
     private int getDegree(BNode<T> root) {
         if(root == null || root.isLeaf()) return 0;
         else return Math.max(root.getDegree(),
@@ -67,15 +64,13 @@ public class BTree<T> {
         return root.getHeight();
     }
     
-    
     /* Métodos Adicionais */
     // isEmpty() --> retorna true se uma árvore é vazia ou false caso contrário
     public boolean isEmpty() {
         return root == null;
     }
     
-    
-    // inOrderTraversal(BNode<T> root) --> função recursiva auxiliar para percorrer a árvore em percurso EM ORDEM
+    // inOrderTraversal(raiz) --> função recursiva auxiliar para percorrer a árvore em percurso EM ORDEM
     private String inOrderTraversal(BNode<T> root) {
         if(root == null) return "";
         else return "" + inOrderTraversal(root.getLeft()) +
@@ -89,7 +84,7 @@ public class BTree<T> {
         return inOrderTraversal(root);
     }
     
-    // preOrderTraversal(BNode<T> root) --> função recursiva auxiliar para percorrer a árvore em percurso PRÉ-ORDEM
+    // preOrderTraversal(raiz) --> função recursiva auxiliar para percorrer a árvore em percurso PRÉ-ORDEM
     private String preOrderTraversal(BNode<T> root) {
         if(root == null) return "";
         else return "" + root.getData() +
@@ -102,7 +97,7 @@ public class BTree<T> {
         return preOrderTraversal(root);
     }
     
-    // postOrderTraversal(BNode<T> root) --> função recursiva auxiliar para percorrer a árvore em percurso PÓS-ORDEM
+    // postOrderTraversal(raiz) --> função recursiva auxiliar para percorrer a árvore em percurso PÓS-ORDEM
     private String postOrderTraversal(BNode<T> root) {
         if(root == null) return "";
         else return "" + postOrderTraversal(root.getLeft()) +
@@ -139,23 +134,19 @@ public class BTree<T> {
     }
   
     // calcular(BNode<T> n) --> função recursiva auxiliar para calcular uma expressão aritmética em uma árvore binária
-        private void calcular(BNode<T> n) {
-        //System.out.println("Nó: " + (n!=null?n.getData():"null"));
+    private void calcular(BNode<T> n) {
         if (n != null && !n.isLeaf()) {
-            //Caso base de operacao
+            // Caso base de operacao
             if(n.getLeft() != null && n.getLeft().isLeaf() 
                && n.getRight()!=null && n.getRight().isLeaf()) {
                 Operand result = new Operand(n.see());
                 
                removeAndSwapNodes(n, result);
                 
-            }
-            else{
+            } else {
                 calcular(n.getLeft());
                 calcular(n.getRight());
                 Operand result = new Operand(n.see());
-                //System.out.printf("see(%c) = %f\n",n.getData(),n.see());
-                //BNode pai = n.getParent();
                 removeAndSwapNodes(n, result);
             }
        }
