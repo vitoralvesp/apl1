@@ -1,5 +1,3 @@
-package APL1.src.binaryTree;
-
 /**
  *
  * @author Lucas Pires de Camargo Sarai - 10418013
@@ -14,6 +12,8 @@ package APL1.src.binaryTree;
  *  Árvores - fundamentos
  */
 
+package APL1.src.binaryTree;
+
 public class BNode<T> {
 	
     private T data;
@@ -22,44 +22,40 @@ public class BNode<T> {
     private BNode<T> right;
 
     /* Construtores */
-    
-    // Construtor para as folhas
+    // BNode(dado do tipo genérico T, pai do tipo BNode) --> Construtor para as folhas
     public BNode(T data, BNode<T> parent) {
         this.data = data;
         this.parent = parent;
         right = left = null;
     }
 
-    // Construtor para a raiz
+    // BNode(dado do tipo genérico T) --> Construtor para a raiz
     public BNode(T data) {
         this(data, null);
     }
     
     /* Setters */
-    
-    // setData(T data) --> atribui um dado de qualquer tipo ao node
+    // setData(dado do tipo genérico T) --> atribui um dado de qualquer tipo ao node
     public void setData(T data) {
         this.data = data;
     }
     
-    // setParent(BNode<T> parent) --> atribui um novo pai para um node
+    // setParent(pai do tipo BNode) --> atribui um novo pai para um node
     public void setParent(BNode<T> parent) {
         this.parent = parent;
     }
     
-    // setLeft(BNode<T> left) --> atribui um novo filho para um node na subárvore à esquerda
+    // setLeft(filho à esquerda do tipo BNode) --> atribui um novo filho para um node na subárvore à esquerda
     public void setLeft(BNode<T> left) {
         this.left = left;
     }
     
-    // setRight(BNode<T> right) --> atribui um novo filho para um node na subárvore à direita
+    // setRight(filho à direita do tipo BNode) --> atribui um novo filho para um node na subárvore à direita
     public void setRight(BNode<T> right) {
         this.right = right;
     }
     
-    
     /* Getters */
-    
     // getData() --> retorna o dado do node
     public T getData() {
         return data;
@@ -81,7 +77,6 @@ public class BNode<T> {
     }
     
     /* Métodos Adicionais */
-    
     // isRoot() --> retorna true se um node é uma raiz e false caso contrário
     public boolean isRoot() {
         return parent == null;
@@ -119,7 +114,6 @@ public class BNode<T> {
         return h;
     }
 
-    
     protected float see() { return Float.NaN; }
     
     
