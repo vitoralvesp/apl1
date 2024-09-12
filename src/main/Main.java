@@ -126,7 +126,11 @@ public class Main {
                             opt.setRight(p.pop());
                             
                         }
-                        
+                        if(opt.getRight() instanceof Diff){
+                            opt.setLeft(opt.getRight().getLeft());
+                            opt.getRight().getLeft().setParent(opt);
+                            opt.getRight().setLeft(null);
+                        }
                     }
                     case "*" -> {
                         opt= new Multiply(op.charAt(0));
