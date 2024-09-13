@@ -1,5 +1,3 @@
-package APL1.src.operations;
-
 /**
  *
  * @author Lucas Pires de Camargo Sarai - 10418013
@@ -14,18 +12,24 @@ package APL1.src.operations;
  *  Árvores - fundamentos
  */
 
+package APL1.src.operations;
 import APL1.src.binaryTree.*;
 
 public class Sum extends Operator {
 
+    /* Construtores */
+    // Sum(dado, pai) --> acessa os atributos data e parent do node para realizar a operação de soma 
     public Sum(char data, BNode parent) {
         super(data, parent);
     }
-    
+
+    // Sum(dado) --> acessa o atributo data do node para realizar a operação de soma
     public Sum(char data) {
         super(data);
     }
 
+    /* Método */
+    // see() --> realiza o cálculo da operação de soma entre os filhos (operandos) da esquerda e direita (se um dos operandos for nulo, é considerado 0)
     @Override
     protected float see() {
         Operand leftOp = (Operand)this.getLeft();
@@ -33,7 +37,5 @@ public class Sum extends Operator {
         return (leftOp != null ? leftOp.see() : 0.0f) +
                (rightOp != null ? rightOp.see() : 0.0f);
     }
-    
-    
     
 }
