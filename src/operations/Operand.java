@@ -28,6 +28,7 @@ public class Operand extends BNode {
         super(data);
     }
 
+    /* Método */
     // see() --> realiza o casting do dado do operando
     @Override
     protected float see() {
