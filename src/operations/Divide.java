@@ -34,6 +34,6 @@ public class Divide extends Operator {
         Operand rightOp = (Operand)this.getRight();
        
         return (leftOp != null ? leftOp.visit() : 0.0f) /
-               rightOp.visit();
+               (rightOp != null ? rightOp.visit() : 0.0f);
     }
 }

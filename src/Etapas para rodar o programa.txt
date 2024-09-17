@@ -1,0 +1,8 @@
+Etapas para rodar o programa:
+1) git clone link
+2) mv apl1 APL1
+3) cd APL1
+4) cd src
+5) javac main\*.java operations\*.java binaryTree\*.java auxiliar\*.java -encoding utf8
+6) cd .. 2 vezes (sair de APL1)
+7) java APL1\src\main\Main (ou java <caminho sugerido pelo terminal>)
