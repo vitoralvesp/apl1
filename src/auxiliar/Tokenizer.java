@@ -70,7 +70,11 @@ public class Tokenizer {
 				tokens.add("+");
 				currChar = getNextChar();
 			} else if(currChar == '-') {
-                                tokens.add("-");
+				if(!Character.isDigit(tokens.get(tokens.lastIndexOf('-')-1).charAt(0)) ||
+				tokens.get(tokens.lastIndexOf('-')-1).charAt(0) != ')'){
+					tokens.add("~");
+				}
+                		else tokens.add("-");
 				currChar = getNextChar();
 			} else if(currChar == '*') {
 				tokens.add("*");
