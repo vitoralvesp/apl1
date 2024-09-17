@@ -29,13 +29,13 @@ public class Diff extends Operator {
         super(data);
     }
 
-    // see() --> realiza a subtração dos operandos da esquerda e direita (se um os dois operandos forem nulos, é considerado como 0) 
+    // visit() --> realiza a subtração dos operandos da esquerda e direita (se um os dois operandos forem nulos, é considerado como 0) 
     @Override
-    protected float see() {
+    protected float visit() {
     	
         Operand leftOp = (Operand)this.getLeft();
         Operand rightOp = (Operand)this.getRight();
-        return (leftOp != null ? leftOp.see() : 0.0f) -
-               (rightOp != null ? rightOp.see() : 0.0f);
+        return (leftOp != null ? leftOp.visit() : 0.0f) -
+               (rightOp != null ? rightOp.visit() : 0.0f);
     }
 }

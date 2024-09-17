@@ -29,10 +29,10 @@ public class Operator extends BNode<Character> {
     }
 
     /* Método */
-    // see() --> 
+    // visit() --> 
     @Override
-    protected float see() {
-      return this.see();
+    protected float visit() {
+      return Float.NaN;
     }
     
     

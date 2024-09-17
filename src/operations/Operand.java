@@ -29,9 +29,9 @@ public class Operand extends BNode {
     }
 
     /* Método */
-    // see() --> realiza o casting do dado do operando
+    // visit() --> realiza o casting do dado do operando
     @Override
-    protected float see() {
+    protected float visit() {
         return (float) this.getData();
     }
     

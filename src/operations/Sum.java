@@ -29,13 +29,13 @@ public class Sum extends Operator {
     }
 
     /* Método */
-    // see() --> realiza o cálculo da operação de soma entre os filhos (operandos) da esquerda e direita (se um dos operandos for nulo, é considerado 0)
+    // visit() --> realiza o cálculo da operação de soma entre os filhos (operandos) da esquerda e direita (se um dos operandos for nulo, é considerado 0)
     @Override
-    protected float see() {
+    protected float visit() {
         Operand leftOp = (Operand)this.getLeft();
         Operand rightOp = (Operand)this.getRight();
-        return (leftOp != null ? leftOp.see() : 0.0f) +
-               (rightOp != null ? rightOp.see() : 0.0f);
+        return (leftOp != null ? leftOp.visit() : 0.0f) +
+               (rightOp != null ? rightOp.visit() : 0.0f);
     }
     
 }

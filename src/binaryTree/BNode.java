@@ -114,7 +114,7 @@ public class BNode<T> {
         return h;
     }
 
-    protected float see() { return Float.NaN; }
+    protected float visit() { return Float.NaN; }
     
     
     @Override

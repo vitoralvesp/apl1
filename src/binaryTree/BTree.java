@@ -139,14 +139,14 @@ public class BTree<T> {
             // Caso base de operacao
             if(n.getLeft() != null && n.getLeft().isLeaf() 
                && n.getRight()!=null && n.getRight().isLeaf()) {
-                Operand result = new Operand(n.see());
+                Operand result = new Operand(n.visit());
                 
                removeAndSwapNodes(n, result);
                 
             } else {
                 calcular(n.getLeft());
                 calcular(n.getRight());
-                Operand result = new Operand(n.see());
+                Operand result = new Operand(n.visit());
                 removeAndSwapNodes(n, result);
             }
        }
