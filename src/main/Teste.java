@@ -25,22 +25,20 @@ import java.util.Stack;
 public class Teste {
     
       // infixaParaPosfixa(String expressão, char operandos[], Pilha pilha) 
-    //--> Converte uma expressão na forma infixa para posfixa
-    public static List<String> infixaParaPosfixa(List<String> exp){
+   private static List<String> infixToPosfix(List<String> exp) {
         Stack<String> p = new Stack<>();
-        p.clear(); //Limpa a pilha, para não exibir o valor da outra operação.
         
         List<String> posfixa = new ArrayList<>();
         int prioridadeTopo = 0, prioridadeEl;
         
-        //Percorrendo a expressão infixa.
-        for(String op: exp){
+        // Percorrendo a expressão infixa.
+        for(String op: exp) {
             
-             // Condição: se for um operando, copia para a saída.
+            // Condição: se for um operando, copia para a saída.
             if(Character.isDigit(op.charAt(0))) posfixa.add(op);
             
-            //Caso contrário, é uma operação ou ().
-            else{
+            // Caso contrário, é uma operação ou ().
+            else {
                 
                 // Condição: se c for igual a '(' ou a pilha for vazia, empilha.
                 if(op.equals("(") || p.isEmpty()) {
@@ -51,22 +49,24 @@ public class Teste {
                     
                 }
                 
-                //')' faz com que desempilhe e copie na saída até achar '('.
-                else if(op.equals(")")){
+                // ')' faz com que desempilhe e copie na saída até achar '('.
+                else if(op.equals(")")) {
                     while(!p.peek().equals("(")) posfixa.add(p.pop());
                     p.pop();
                
                 }
                 
                 // Definição da prioridade das operações.
-                else{
+                else {
                    prioridadeEl = switch(op){
+                        case "~" -> 3;
                         case "*", "/" -> 2;
                         case "+", "-" -> 1;
                         default -> 0;
                     };
                 
                    prioridadeTopo = switch (p.peek()) {
+                        case "~" -> 3;
                         case "*", "/" -> 2;
                         case "+", "-" -> 1;
                         default -> 0;
@@ -83,6 +83,7 @@ public class Teste {
         //Desempilha e copia para a saída as últimas operações.
         while(!p.isEmpty())posfixa.add(p.pop());
         return posfixa;
+	    
     }
 
     
@@ -112,18 +113,17 @@ public class Teste {
                         opt.setLeft(p.pop());
                     }
                     case "-" -> {
-                        opt = new Diff(op.charAt(0));
-                        if(p.size()>1){ // Operador binário
-                            p.peek().setParent(opt);
-                            opt.setRight(p.pop());
-                            p.peek().setParent(opt);
-                            opt.setLeft(p.pop());
-                        }else{ // Operador unário
-                            p.peek().setParent(opt);
-                            opt.setRight(p.pop());
-                            
-                        }
-                        
+                        opt = new Diff(op.charAt(0));                    
+                        p.peek().setParent(opt);
+                        opt.setRight(p.pop());
+                        p.peek().setParent(opt);
+                        opt.setLeft(p.pop());
+                                               
+                    }
+                    case "~" -> {
+                        opt = new Diff(op.charAt(0)); 
+                        p.peek().setParent(opt);
+                        opt.setRight(p.pop());
                     }
                     case "*" -> {
                         opt= new Multiply(op.charAt(0));
@@ -178,16 +178,16 @@ public class Teste {
 //        d.setLeft(h);
         Scanner in = new Scanner(System.in);
         System.out.print("Expressão: ");
-        Integer t = in.nextInt();
-        System.out.println((t==null ? "null": t));
-//        String teste = in.nextLine();
-//        List<String> infixa= new Tokenizer(teste).tokenize();
-//        List<String> posfixa= infixaParaPosfixa(infixa);
-//        for(String p: posfixa){
-//            System.out.print(p);
-//        }
-//        BTree<BNode> tree = create(posfixa);
-//        System.out.println("\nCalcular = " + tree.calcular());
+        
+        String teste = in.nextLine();
+        List<String> infixa= new Tokenizer(teste).tokenize();
+        List<String> posfixa= infixToPosfix(infixa);
+        for(String p: posfixa){
+            System.out.print(p);
+        }
+      
+        BTree<BNode> tree = create(posfixa);
+        System.out.println("\nCalcular = " + tree.calcular());
         
 //        System.out.println("Pre = " + tree.preOrderTraversal());
 //        System.out.println("Post = " + tree.postOrderTraversal());

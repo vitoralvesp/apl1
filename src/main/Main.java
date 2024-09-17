@@ -60,12 +60,14 @@ public class Main {
                 // Definição da prioridade das operações.
                 else {
                    prioridadeEl = switch(op){
+                        case "~" -> 3;
                         case "*", "/" -> 2;
                         case "+", "-" -> 1;
                         default -> 0;
                     };
                 
                    prioridadeTopo = switch (p.peek()) {
+                        case "~" -> 3;
                         case "*", "/" -> 2;
                         case "+", "-" -> 1;
                         default -> 0;
@@ -116,22 +118,17 @@ public class Main {
                     }
 				
                     case "-" -> {
-                        opt = new Diff(op.charAt(0));
-                        if(p.size()>1) { // Operador binário
-                            p.peek().setParent(opt);
-                            opt.setRight(p.pop());
-                            p.peek().setParent(opt);
-                            opt.setLeft(p.pop());
-                        } else { // Operador unário
-                            p.peek().setParent(opt);
-                            opt.setRight(p.pop());
-                            
-                        }
-                        if(opt.getRight() instanceof Diff) {
-                            opt.setLeft(opt.getRight().getLeft());
-                            opt.getRight().getLeft().setParent(opt);
-                            opt.getRight().setLeft(null);
-                        }
+                        opt = new Diff(op.charAt(0));                    
+                        p.peek().setParent(opt);
+                        opt.setRight(p.pop());
+                        p.peek().setParent(opt);
+                        opt.setLeft(p.pop());
+                                               
+                    }
+                    case "~" -> {
+                        opt = new Diff(op.charAt(0)); 
+                        p.peek().setParent(opt);
+                        opt.setRight(p.pop());
                     }
 				
                     case "*" -> {

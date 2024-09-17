@@ -44,6 +44,7 @@ public class Tokenizer {
 		StringBuilder sb = new StringBuilder();
 		char currChar = getNextChar();
 		boolean isTokenizing = true;
+                int currIndex = 0;
 		
 		while(isTokenizing) {
 			
@@ -70,8 +71,8 @@ public class Tokenizer {
 				tokens.add("+");
 				currChar = getNextChar();
                         } else if(currChar == '-') {
-				if(!Character.isDigit(tokens.get(tokens.lastIndexOf('-')-1).charAt(0)) ||
-				tokens.get(tokens.lastIndexOf('-')-1).charAt(0) != ')'){
+				if(currIndex == 0 || (tokens.get(currIndex-1).charAt(0) != ')'
+                                   && !Character.isDigit(tokens.get(currIndex-1).charAt(0)))){
 					tokens.add("~");
 				}
                 		else tokens.add("-");
@@ -91,7 +92,9 @@ public class Tokenizer {
                                         + " tokens não foram reconhecidos.");
 				return null;
 			}
-
+                    
+                    currIndex++;
+                    
                 }
 		
 	      return tokens;
