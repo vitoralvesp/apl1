@@ -204,6 +204,7 @@ public class Main {
                 String exp = "";
                 boolean isChecked = true;
 		BTree<BNode> tree = new BTree<>();
+		BTree<BNode> tree_calc = new BTree<>();
 		
 		while(true) {
 			try {
@@ -259,6 +260,7 @@ public class Main {
                             try{
                                 System.out.println("Criando árvore...");
                                 tree = create(posfixNotation);
+				tree_calc = create(posfixNotation);
                                 System.out.println("Árvore criada com sucesso!");
                             } catch(EmptyStackException e) {
                                 System.out.println("ERRO! Operações binárias devem ter dois operandos!");
@@ -282,7 +284,7 @@ public class Main {
                     
                     case 4 -> {
                         if(tree.getRoot() == null) System.out.println("ERRO! Árvore ainda não foi criada!");
-                        else System.out.println(exp + " = " + tree.calcular());
+                        else System.out.println(exp + " = " + tree_calc.calcular());
                         
                                           	
                     
