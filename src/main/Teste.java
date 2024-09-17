@@ -178,14 +178,16 @@ public class Teste {
 //        d.setLeft(h);
         Scanner in = new Scanner(System.in);
         System.out.print("Expressão: ");
-        String teste = in.nextLine();
-        List<String> infixa= new Tokenizer(teste).tokenize();
-        List<String> posfixa= infixaParaPosfixa(infixa);
-        for(String p: posfixa){
-            System.out.print(p);
-        }
-        BTree<BNode> tree = create(posfixa);
-        System.out.println("\nCalcular = " + tree.calcular());
+        Integer t = in.nextInt();
+        System.out.println((t==null ? "null": t));
+//        String teste = in.nextLine();
+//        List<String> infixa= new Tokenizer(teste).tokenize();
+//        List<String> posfixa= infixaParaPosfixa(infixa);
+//        for(String p: posfixa){
+//            System.out.print(p);
+//        }
+//        BTree<BNode> tree = create(posfixa);
+//        System.out.println("\nCalcular = " + tree.calcular());
         
 //        System.out.println("Pre = " + tree.preOrderTraversal());
 //        System.out.println("Post = " + tree.postOrderTraversal());

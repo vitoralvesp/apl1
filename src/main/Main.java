@@ -126,7 +126,7 @@ public class Main {
                             opt.setRight(p.pop());
                             
                         }
-                        if(opt.getRight() instanceof Diff){
+                        if(opt.getRight() instanceof Diff && opt.getLeft() == null){
                             opt.setLeft(opt.getRight().getLeft());
                             opt.getRight().getLeft().setParent(opt);
                             opt.getRight().setLeft(null);
@@ -272,6 +272,7 @@ public class Main {
                             System.out.println("Pré-ordem: " + tree.preOrderTraversal());
                             System.out.println("Em-ordem: " + tree.inOrderTraversal());
                             System.out.println("Pós-ordem: " + tree.postOrderTraversal());
+ 
                         }
                     	
                     	
