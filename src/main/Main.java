@@ -125,7 +125,7 @@ public class Main {
                         opt.setLeft(p.pop());
                                                
                     }
-                    case "~" -> {
+                    case "~" -> { // Operador de negação
                         opt = new Diff(op.charAt(0)); 
                         p.peek().setParent(opt);
                         opt.setRight(p.pop());
@@ -280,8 +280,11 @@ public class Main {
                     }
                     
                     case 4 -> {
-                        if(tree.getRoot() == null) System.out.println("ERRO! Árvore ainda não foi criada!");
-                        else System.out.println(exp + " = " + tree_calc.calcular());
+                        if(tree.getRoot() == null) 
+                            System.out.println("ERRO! Árvore ainda não foi criada!");
+                        else if(tree_calc.calculate() == null) 
+                            System.out.println("ERRO! Divisão por zero!");
+                        else System.out.println(exp + " = " + tree_calc.getRoot().getData());
                         
                                           	
                     

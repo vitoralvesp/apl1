@@ -187,7 +187,7 @@ public class Teste {
         }
       
         BTree<BNode> tree = create(posfixa);
-        System.out.println("\nCalcular = " + tree.calcular());
+        System.out.println("\nCalcular = " + tree.calculate());
         
 //        System.out.println("Pre = " + tree.preOrderTraversal());
 //        System.out.println("Post = " + tree.postOrderTraversal());

@@ -28,8 +28,7 @@ public class Operator extends BNode<Character> {
         super(data);
     }
 
-    /* Método */
-    // visit() --> 
+    // Método abstrato
     @Override
     protected float visit() {
       return Float.NaN;

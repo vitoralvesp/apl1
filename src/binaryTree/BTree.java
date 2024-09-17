@@ -133,8 +133,8 @@ public class BTree<T> {
         
     }
   
-    // calcular(BNode<T> n) --> função recursiva auxiliar para calcular uma expressão aritmética em uma árvore binária
-    private void calcular(BNode<T> n) {
+    // calculate(BNode<T> n) --> função recursiva auxiliar para calcular uma expressão aritmética em uma árvore binária
+     private void calculate(BNode<T> n) {
         if (n != null && !n.isLeaf()) {
             // Caso base de operacao
             if(n.getLeft() != null && n.getLeft().isLeaf() 
@@ -144,17 +144,18 @@ public class BTree<T> {
                removeAndSwapNodes(n, result);
                 
             } else {
-                calcular(n.getLeft());
-                calcular(n.getRight());
+                calculate(n.getLeft());
+                calculate(n.getRight());
                 Operand result = new Operand(n.visit());
                 removeAndSwapNodes(n, result);
             }
        }
     }
    
-    // calcular() --> retorna o cálculo de uma expressão aritmética em uma árvore
-    public T calcular() {
-       calcular(root);
+    // calculate() --> retorna o cálculo de uma expressão aritmética em uma árvore
+    public T calculate() {
+       calculate(root);
+       if(root.getData().equals(Float.POSITIVE_INFINITY))return null; 
        return root.getData();
    }
     

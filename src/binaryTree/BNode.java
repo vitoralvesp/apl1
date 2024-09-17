@@ -114,6 +114,7 @@ public class BNode<T> {
         return h;
     }
 
+    //Método abstrato
     protected float visit() { return Float.NaN; }
     
     
