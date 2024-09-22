@@ -15,7 +15,7 @@
 package APL1.src.main;
 import APL1.src.binaryTree.*;
 import APL1.src.operations.*;
-import Apl1.src.auxiliar.Tokenizer;
+import APL1.src.auxiliar.Tokenizer;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.InputMismatchException;
@@ -88,7 +88,7 @@ public class Main {
     }
 
     // createSteps(operandos) --> realiza o cálculo da espressão aritmética (utiliza uma pilha)
-    private static BNode createSteps(List<String> ops) {
+    private static BNode createSteps(List<String> ops) throws NumberFormatException{
         
         Stack<BNode> p= new Stack<>();
 	
@@ -165,6 +165,7 @@ public class Main {
     // verificar(expressão) --> verifica se a expressão aritmética é válida
     private static boolean verify(List<String> sentence){
         Stack<String> p = new Stack<>();
+        int index = 0; // indice do elemento analisado
         
         // Analisa a simetria dos sinais de abertura e fechamento.
         for(String op: sentence) {
@@ -172,7 +173,7 @@ public class Main {
             // Insere os caracteres que abrem.
             // Verifica se não ocorre o caso x(...) ao invés de x*(...)
             if(op.equals("("))
-                if(!Character.isDigit(sentence.get(sentence.lastIndexOf(op)-1).charAt(0)))
+                if(index > 0  && !Character.isDigit(sentence.get(index-1).charAt(0)))
                     p.push(op);
                 else return false;
             
@@ -180,13 +181,14 @@ public class Main {
             else if(op.equals(")")){
                 
                 // Condição: Se todos não forem fechados, retorna falso.
-                if(p.isEmpty() || (op.equals(")")  && !p.peek().equals("(")))
+                if(p.isEmpty() || (op.equals(")")  && !p.peek().equals("("))
+                   || sentence.get(index-1).charAt(0) == '(')
                     return false;
                 
                 // Remove os que fecham corretamente.
                 p.pop(); 
             }
-
+            index++;
         }
         // Se a pilha estiver vazia, é válido, pois todos foram fechados.
         return p.isEmpty(); 
@@ -259,8 +261,11 @@ public class Main {
                                 tree = create(posfixNotation);
 				tree_calc = create(posfixNotation);
                                 System.out.println("Árvore criada com sucesso!");
-                            } catch(EmptyStackException e) {
-                                System.out.println("ERRO! Operações binárias devem ter dois operandos!");
+                            } catch(Exception e) {
+                                if(e instanceof EmptyStackException) 
+                                    System.out.println("ERRO! Operações binárias devem ter dois operandos!");
+                                else
+                                    System.out.println("ERRO! Número inválido!");
                                
                             }
                             
