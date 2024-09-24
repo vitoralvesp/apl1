@@ -31,11 +31,10 @@ public class Diff extends Operator {
 
     // visit() --> realiza a subtração dos operandos da esquerda e direita (se um os dois operandos forem nulos, é considerado como 0) 
     @Override
-    protected float visit() {
+    public float visit() {
     	
-        Operand leftOp = (Operand)this.getLeft();
-        Operand rightOp = (Operand)this.getRight();
-        return (leftOp != null ? leftOp.visit() : 0.0f) -
-               (rightOp != null ? rightOp.visit() : 0.0f);
+        BNode leftOp = this.getLeft();
+        BNode rightOp = this.getRight();
+        return (leftOp == null ? 0.0f : leftOp.visit())-rightOp.visit();
     }
 }

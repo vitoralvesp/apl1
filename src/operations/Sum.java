@@ -31,11 +31,10 @@ public class Sum extends Operator {
     /* Método */
     // visit() --> realiza o cálculo da operação de soma entre os filhos (operandos) da esquerda e direita (se um dos operandos for nulo, é considerado 0)
     @Override
-    protected float visit() {
-        Operand leftOp = (Operand)this.getLeft();
-        Operand rightOp = (Operand)this.getRight();
-        return (leftOp != null ? leftOp.visit() : 0.0f) +
-               (rightOp != null ? rightOp.visit() : 0.0f);
+    public float visit() {
+        BNode leftOp = this.getLeft();
+        BNode rightOp = this.getRight();
+        return leftOp.visit()+rightOp.visit();
     }
     
 }

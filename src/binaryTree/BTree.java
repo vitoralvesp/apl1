@@ -153,10 +153,8 @@ public class BTree<T> {
     }
    
     // calculate() --> retorna o cálculo de uma expressão aritmética em uma árvore
-    public T calculate() {
-       calculate(root);
-       if(root.getData().equals(Float.POSITIVE_INFINITY))return null; 
-       return root.getData();
+    public float calculate() {
+       return root.visit();
    }
     
 }

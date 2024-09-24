@@ -173,9 +173,14 @@ public class Main {
             // Insere os caracteres que abrem.
             // Verifica se não ocorre o caso x(...) ao invés de x*(...)
             if(op.equals("("))
-                if(index > 0  && !Character.isDigit(sentence.get(index-1).charAt(0)))
+                if((index > 0  && !Character.isDigit(sentence.get(index-1).charAt(0)))
+                   || index==0)
                     p.push(op);
-                else return false;
+                else {
+                    System.out.println("Index = " + index);
+                    System.out.println("Valor = " + sentence.get(index-1).charAt(0));
+                    return false;
+                }
             
             // Analisa os caracteres que fecham.
             else if(op.equals(")")){
@@ -219,6 +224,7 @@ public class Main {
                 option = scanner.nextInt();
 
                 if (option == 5) {
+                        System.out.println("Programa encerrado!");
                 	scanner.close();
                 	break;
                 }
@@ -287,21 +293,21 @@ public class Main {
                     case 4 -> {
                         if(tree.getRoot() == null) 
                             System.out.println("ERRO! Árvore ainda não foi criada!");
-                        else if(tree_calc.calculate() == null) 
+                        else if(tree.calculate() == Float.NaN) 
                             System.out.println("ERRO! Divisão por zero!");
-                        else System.out.println(exp + " = " + tree_calc.getRoot().getData());
+                        else System.out.println(exp + " = " + tree.calculate());
                         
                                           	
                     
                     }
                 }
             
-			} catch(InputMismatchException e) {
-				System.out.println("--------------------------------------------------------\n");
-				System.out.println("\nENTRADA INVALIDA!!! Tente novamente apenas com números inteiros de 1 a 5...\n");
-				scanner.nextLine();
+	    } catch(InputMismatchException e) {
+                    System.out.println("--------------------------------------------------------\n");
+                    System.out.println("\nENTRADA INVALIDA!!! Tente novamente apenas com números inteiros de 1 a 5...\n");
+                    scanner.nextLine();
                 
-            }
+                }
             
         }
     }

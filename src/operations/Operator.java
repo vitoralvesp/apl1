@@ -30,7 +30,7 @@ public class Operator extends BNode<Character> {
 
     // Método abstrato
     @Override
-    protected float visit() {
+    public float visit() {
       return Float.NaN;
     }
     

@@ -31,7 +31,7 @@ public class Operand extends BNode {
     /* Método */
     // visit() --> realiza o casting do dado do operando
     @Override
-    protected float visit() {
+    public float visit() {
         return (float) this.getData();
     }
     

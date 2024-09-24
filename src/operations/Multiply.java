@@ -29,10 +29,9 @@ public class Multiply extends Operator {
 
     // visit() --> realiza a operação de multiplicação entre os operandos (se um deles for nulo, é considerado como 0)
     @Override
-    protected float visit() {
-        Operand leftOp = (Operand)this.getLeft();
-        Operand rightOp = (Operand)this.getRight();
-        return (leftOp != null ? leftOp.visit() : 0.0f) *
-               (rightOp != null ? rightOp.visit() : 0.0f);
+    public float visit() {
+        BNode leftOp = this.getLeft();
+        BNode rightOp = this.getRight();
+        return leftOp.visit()*rightOp.visit();
     }
 }

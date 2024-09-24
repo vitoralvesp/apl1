@@ -115,7 +115,7 @@ public class BNode<T> {
     }
 
     //Método abstrato
-    protected float visit() { return Float.NaN; }
+    public float visit() { return Float.NaN; }
     
     
     @Override

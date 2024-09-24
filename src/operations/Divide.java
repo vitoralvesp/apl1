@@ -29,11 +29,11 @@ public class Divide extends Operator {
 
     // visit() --> realiza a operação de divisão para os filhos (operandos) da esquerda e direita do node (é considerado 0 se um deles for nulo)
     @Override
-    protected float visit() {
-        Operand leftOp = (Operand)this.getLeft();
-        Operand rightOp = (Operand)this.getRight();
-       
-        return (leftOp != null ? leftOp.visit() : 0.0f) /
-               (rightOp != null ? rightOp.visit() : 0.0f);
+    public float visit() {
+        BNode leftOp = this.getLeft();
+        BNode rightOp = this.getRight();
+        float r = leftOp.visit()/rightOp.visit();
+        if(r==Float.POSITIVE_INFINITY) return Float.NaN;
+        else return r;
     }
 }
